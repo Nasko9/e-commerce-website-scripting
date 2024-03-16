@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["ES5", "ES6", "DOM"],
+    "outDir": "build",
+    "rootDir": "src",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["./src/**/*"]
+}

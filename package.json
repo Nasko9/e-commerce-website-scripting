@@ -1,0 +1,44 @@
+{
+  "name": "e-commerce-website-scripting",
+  "version": "1.0.0",
+  "description": "A Puppeteer script to automate data extraction and interaction with an e-commerce website. This script navigates through the site, extracts product information, and simulates a user journey from product discovery to checkout. Built using Node.js and Puppeteer for web scraping and automation.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npm run build && node build/index.js",
+    "build": "rimraf ./build && tsc",
+    "dev": "npx nodemon",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write '**/*.{ts,tsx,js,jsx,json}'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nasko9/e-commerce-website-scripting.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nasko9/e-commerce-website-scripting/issues"
+  },
+  "homepage": "https://github.com/Nasko9/e-commerce-website-scripting#readme",
+  "author": "Milos Naskovic",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.28",
+    "@types/puppeteer": "^7.0.4",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "puppeteer": "^22.5.0"
+  }
+}
