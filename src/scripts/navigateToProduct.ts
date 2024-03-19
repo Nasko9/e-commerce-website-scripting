@@ -6,7 +6,18 @@ import { delay } from "../utils/delay.js";
 export const navigateToProduct = async (page: Page) => {
   // Navigate to next page
   await page.waitForSelector("a.wt-btn.wt-btn--transparent.wt-btn--small");
-  await page.click("a.wt-btn.wt-btn--transparent.wt-btn--small");
+  const categoryLinks = await page.$$(
+    "a.wt-btn.wt-btn--transparent.wt-btn--small"
+  );
+
+  if (categoryLinks.length >= 2) {
+    await categoryLinks[2].click();
+  } else {
+    console.log("Less than two buttons found.");
+    return;
+  }
+
+  // await page.click("a.wt-btn.wt-btn--transparent.wt-btn--small");
   await delay(10000 + Math.random() * 500);
 
   // Navigate to first product

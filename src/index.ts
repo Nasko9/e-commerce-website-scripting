@@ -5,7 +5,7 @@ import puppeteer, { Browser, Page } from "puppeteer";
 import { getUserAgent } from "./utils/userAgent.js";
 import { delay } from "./utils/delay.js";
 // Scripts
-import { productDisovery } from "./scripts/productDiscovery.js";
+import { extractProductsData } from "./scripts/extractProductsData.js";
 
 // Configurations
 dotenv.config();
@@ -26,8 +26,7 @@ const userAgent = getUserAgent();
   await page.goto(url, { waitUntil: "networkidle2" });
   await delay(10000 + Math.random() * 500);
 
-  // 1 - Product Discovery
-  await productDisovery(page);
+  await extractProductsData(page);
 
   // Close browser
   await browser.close();

@@ -5,12 +5,16 @@ import { Page } from "puppeteer";
 import { delay } from "../utils/delay.js";
 // Scripts
 import { navigateToProduct } from "./navigateToProduct.js";
+import { extractProductDetails } from "./extractProductDetails.js";
 
-export const productDisovery = async (page: Page) => {
+export const extractProductsData = async (page: Page) => {
   // Navigate to product
   await navigateToProduct(page);
   await delay(10000 + Math.random() * 500);
   // Navigate to homepage
+  await page.waitForSelector("div[data-header-logo-container] a", {
+    timeout: 10000,
+  });
   await page.click("div[data-header-logo-container] a");
   await delay(10000 + Math.random() * 500);
 
@@ -25,15 +29,23 @@ export const productDisovery = async (page: Page) => {
     const data = list.map(product => ({
       title: product.querySelector("a").getAttribute("title"),
       url: product.querySelector("a").getAttribute("href"),
-      image: product.querySelector("img").getAttribute("src"),
+      // image: product.querySelector("img").getAttribute("src"),
       price: product.querySelector("span.currency-value").textContent,
     }));
+
     return data;
   });
 
+  for (const product of productData) {
+    console.log(`Extracting details for: ${product.title}`);
+    await delay(1000);
+    const details = await extractProductDetails(page, product.url);
+    Object.assign(product, { details });
+  }
+
   // Set extracted data to JSON filte
   // Todo: Create the functionality to save the file in the data folder
-  fs.writeFile("productDiscovery.json", JSON.stringify(productData), err => {
+  fs.writeFile("productsData.json", JSON.stringify(productData), err => {
     if (err) {
       throw err;
     }
