@@ -2,6 +2,9 @@ import { Page } from "puppeteer";
 
 export const extractProductDetails = async (page: Page, url: string) => {
   await page.goto(url, { waitUntil: "networkidle2" });
+
+  // Todo: add product to shoping cart - create function
+
   const details = await page.evaluate(() => {
     // Todo: Extract this function outside
     const extractPriceText = (text: string) => {

@@ -36,6 +36,7 @@ export const extractProductsData = async (page: Page) => {
     return data;
   });
 
+  // Extract details for each product
   for (const product of productData) {
     console.log(`Extracting details for: ${product.title}`);
     await delay(1000);

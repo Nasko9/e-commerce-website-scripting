@@ -27,7 +27,7 @@ const userAgent = getUserAgent();
   await delay(10000 + Math.random() * 500);
 
   await extractProductsData(page);
-
+  // Todo: add function for checkout process
   // Close browser
   await browser.close();
 })().catch(console.error);
