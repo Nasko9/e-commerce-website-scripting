@@ -1,12 +1,18 @@
+// Modules
 import { Page } from "puppeteer";
+// Scripts
+import { addToCart } from "./addToCart.js";
 
 export const extractProductDetails = async (page: Page, url: string) => {
   await page.goto(url, { waitUntil: "networkidle2" });
 
-  // Todo: add product to shoping cart - create function
+  // Add to shopping cart
+  await addToCart(page);
 
+  await page.goto(url, { waitUntil: "networkidle2" });
+
+  // Extract product details
   const details = await page.evaluate(() => {
-    // Todo: Extract this function outside
     const extractPriceText = (text: string) => {
       const regex = /(USD\s+\d+\.\d+)/;
       const matched = text.match(regex);
@@ -33,5 +39,6 @@ export const extractProductDetails = async (page: Page, url: string) => {
         .getAttribute("src"),
     };
   });
+
   return details;
 };

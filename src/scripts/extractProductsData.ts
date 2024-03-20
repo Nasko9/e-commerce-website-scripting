@@ -45,7 +45,6 @@ export const extractProductsData = async (page: Page) => {
   }
 
   // Set extracted data to JSON filte
-  // Todo: Create the functionality to save the file in the data folder
   fs.writeFile("productsData.json", JSON.stringify(productData), err => {
     if (err) {
       throw err;
