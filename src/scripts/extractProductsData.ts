@@ -29,8 +29,6 @@ export const extractProductsData = async (page: Page) => {
     const data = list.map(product => ({
       title: product.querySelector("a").getAttribute("title"),
       url: product.querySelector("a").getAttribute("href"),
-      // image: product.querySelector("img").getAttribute("src"),
-      price: product.querySelector("span.currency-value").textContent,
     }));
 
     return data;

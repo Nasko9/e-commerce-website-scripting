@@ -5,10 +5,9 @@ import { delay } from "../utils/delay.js";
 
 export const addToCart = async (page: Page) => {
   // Add to cart
-  if ((await page.$("#variation-selector-0")) !== null) {
-    await page.click("div[data-add-to-cart-button] button");
-    await delay(10000 + Math.random() * 500);
-  }
+  await page.waitForSelector("div[data-add-to-cart-button] button", {
+    timeout: 10000,
+  });
 
   // Select color
   if ((await page.$("#variation-selector-0")) !== null) {
@@ -22,9 +21,6 @@ export const addToCart = async (page: Page) => {
       }
       return null;
     });
-
-    // await page.click("#variation-selector-0");
-    // await page.click(`option[value=${valueOfColorSelector}]`);
 
     if (valueOfColorSelector) {
       await page.select("#variation-selector-0", valueOfColorSelector);
@@ -45,12 +41,10 @@ export const addToCart = async (page: Page) => {
       }
       return null;
     });
+
     if (valueOfSizeSelector) {
       await page.select("#variation-selector-1", valueOfSizeSelector);
     }
-
-    // await page.click("#variation-selector-1");
-    // await page.click(`option[value="${valueOfSizeSelector}"]`);
   }
 
   await delay(10000 + Math.random() * 500);

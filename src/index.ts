@@ -6,6 +6,9 @@ import { getUserAgent } from "./utils/userAgent.js";
 import { delay } from "./utils/delay.js";
 // Scripts
 import { extractProductsData } from "./scripts/extractProductsData.js";
+import { simulateCheckoutProcess } from "./scripts/simulateCheckoutProcess.js";
+import { navigateToProduct } from "./scripts/navigateToProduct.js";
+import { addToCart } from "./scripts/addToCart.js";
 
 // Configurations
 dotenv.config();
@@ -27,7 +30,16 @@ const userAgent = getUserAgent();
   await delay(10000 + Math.random() * 500);
 
   await extractProductsData(page);
-  // Todo: add function for checkout process
+  await delay(10000 + Math.random() * 500);
+
+  await navigateToProduct(page);
+  await delay(10000 + Math.random() * 500);
+
+  await addToCart(page);
+  await delay(10000 + Math.random() * 500);
+
+  await simulateCheckoutProcess(page);
+
   // Close browser
   await browser.close();
 })().catch(console.error);

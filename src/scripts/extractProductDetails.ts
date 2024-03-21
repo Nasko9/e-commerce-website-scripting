@@ -1,14 +1,7 @@
 // Modules
 import { Page } from "puppeteer";
-// Scripts
-import { addToCart } from "./addToCart.js";
 
 export const extractProductDetails = async (page: Page, url: string) => {
-  await page.goto(url, { waitUntil: "networkidle2" });
-
-  // Add to shopping cart
-  await addToCart(page);
-
   await page.goto(url, { waitUntil: "networkidle2" });
 
   // Extract product details
