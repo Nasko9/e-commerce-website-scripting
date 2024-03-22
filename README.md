@@ -1,4 +1,4 @@
-# e-commerce-website-scripting
+# E-commerce website scripting
 
 This project uses Puppeteer and Node.js to automate and simulate the use of e-commerce platforms.
 
