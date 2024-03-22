@@ -6,4 +6,8 @@
 
 - `src`
   - `scripts`
+  - `types`
   - `utils`
+    - `data`
+    - `helpers`
+    - `selectors`
