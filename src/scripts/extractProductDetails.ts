@@ -7,16 +7,22 @@ export const extractProductDetails = async (page: Page, url: string) => {
   // Extract product details
   const details = await page.evaluate(() => {
     const extractPriceText = (text: string) => {
-      const regex = /(USD\s+\d+\.\d+)/;
-      const matched = text.match(regex);
-      return matched ? matched[0] : null;
+      const startIndex = text.indexOf("Price:\n");
+      if (startIndex !== -1) {
+        const start = startIndex + "Price:\n".length;
+        const endIndex = text.indexOf("\n", start);
+        if (endIndex !== -1) {
+          return text.slice(start, endIndex).trim();
+        }
+      }
+      return null;
     };
 
     return {
       name: document.querySelector("h1")?.textContent.trim(),
       price: extractPriceText(
         document
-          .querySelector("div[data-appears-component-name] p")
+          .querySelector("div[data-buy-box-region='price'] p")
           .textContent.trim()
       ),
       description: document

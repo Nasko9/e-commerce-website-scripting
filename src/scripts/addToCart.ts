@@ -1,13 +1,20 @@
 // Modules
 import { Page } from "puppeteer";
 // Utils
-import { delay } from "../utils/delay.js";
+import { delay } from "../utils/helpers/delay.js";
+import { handlePuppeteerError } from "../utils/helpers/errorHandler.js";
+import { commonSelectors } from "../utils/selectors/common.js";
+import { productSelectors } from "../utils/selectors/product.js";
 
 export const addToCart = async (page: Page) => {
   // Add to cart
-  await page.waitForSelector("div[data-add-to-cart-button] button", {
-    timeout: 10000,
-  });
+  try {
+    await page.waitForSelector("div[data-add-to-cart-button] button", {
+      timeout: 10000,
+    });
+  } catch (error) {
+    handlePuppeteerError(error);
+  }
 
   // Select color
   if ((await page.$("#variation-selector-0")) !== null) {
@@ -27,7 +34,7 @@ export const addToCart = async (page: Page) => {
     }
   }
 
-  await delay(10000 + Math.random() * 500);
+  await delay(10000, true);
 
   // Select size
   if ((await page.$("#variation-selector-1")) !== null) {
@@ -47,7 +54,7 @@ export const addToCart = async (page: Page) => {
     }
   }
 
-  await delay(10000 + Math.random() * 500);
+  await delay(10000, true);
 
   // Add to cart
   await page.click("div[data-add-to-cart-button] button");

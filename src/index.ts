@@ -2,13 +2,14 @@
 import dotenv from "dotenv";
 import puppeteer, { Browser, Page } from "puppeteer";
 // Utils
-import { getUserAgent } from "./utils/userAgent.js";
-import { delay } from "./utils/delay.js";
+import { delay } from "./utils/helpers/delay.js";
+import { getUserAgent } from "./utils/helpers/userAgent.js";
+import { handlePuppeteerError } from "./utils/helpers/errorHandler.js";
 // Scripts
 import { extractProductsData } from "./scripts/extractProductsData.js";
-import { simulateCheckoutProcess } from "./scripts/simulateCheckoutProcess.js";
 import { navigateToProduct } from "./scripts/navigateToProduct.js";
 import { addToCart } from "./scripts/addToCart.js";
+import { simulateCheckoutProcess } from "./scripts/simulateCheckoutProcess.js";
 
 // Configurations
 dotenv.config();
@@ -19,27 +20,37 @@ const userAgent = getUserAgent();
 
 // Function for scraping
 (async () => {
-  // Puppeteer Setup
-  const browser: Browser = await puppeteer.launch({ headless: false });
-  const page: Page = await browser.newPage();
+  let browser: Browser;
 
-  await page.setViewport({ width: 1280, height: 900 });
-  await page.setUserAgent(userAgent);
+  try {
+    // Puppeteer Setup
+    browser = await puppeteer.launch({ headless: false });
+    const page: Page = await browser.newPage();
 
-  await page.goto(url, { waitUntil: "networkidle2" });
-  await delay(10000 + Math.random() * 500);
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setUserAgent(userAgent);
 
-  await extractProductsData(page);
-  await delay(10000 + Math.random() * 500);
+    await page.goto(url, { waitUntil: "networkidle2" });
+    await delay(10000, true);
 
-  await navigateToProduct(page);
-  await delay(10000 + Math.random() * 500);
+    // Extract product data
+    await extractProductsData(page);
+    await delay(10000, true);
 
-  await addToCart(page);
-  await delay(10000 + Math.random() * 500);
+    // Navigate to product
+    await navigateToProduct(page);
+    await delay(10000, true);
 
-  await simulateCheckoutProcess(page);
+    // Add product to cart
+    await addToCart(page);
+    await delay(10000, true);
 
-  // Close browser
-  await browser.close();
-})().catch(console.error);
+    // Do checkout processs
+    await simulateCheckoutProcess(page);
+  } catch (error) {
+    handlePuppeteerError(error);
+  } finally {
+    // Close browser
+    await browser.close();
+  }
+})();

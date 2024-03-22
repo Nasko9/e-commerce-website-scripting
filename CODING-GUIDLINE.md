@@ -5,3 +5,5 @@
 ### Folder structure
 
 - `src`
+  - `scripts`
+  - `utils`
