@@ -6,7 +6,7 @@ import { handlePuppeteerError } from "../utils/helpers/errorHandler.js";
 import { productSelectors } from "../utils/selectors/product.js";
 
 export const navigateToProduct = async (page: Page) => {
-  // Navigate to next page
+  // Check if Category button exist
   try {
     await page.waitForSelector(productSelectors.nextCategoryButton, {
       timeout: 10000,
@@ -15,8 +15,10 @@ export const navigateToProduct = async (page: Page) => {
     handlePuppeteerError(error);
   }
 
+  // Gorup all category links
   const categoryLinks = await page.$$(productSelectors.nextCategoryButton);
 
+  // If exist click to second category in menu
   if (categoryLinks.length >= 2) {
     await categoryLinks[2].click();
   } else {
@@ -26,7 +28,7 @@ export const navigateToProduct = async (page: Page) => {
   }
   await delay(10000, true);
 
-  // Navigate to first product
+  // Check if shoping window exist
   try {
     await page.waitForSelector(productSelectors.shoppingWindow, {
       timeout: 10000,
@@ -34,10 +36,12 @@ export const navigateToProduct = async (page: Page) => {
   } catch (error) {
     handlePuppeteerError(error);
   }
+
+  // Navigate to first product
   await page.click(`${productSelectors.shoppingWindow} a`);
   await delay(10000, true);
 
-  // Navigate to single product
+  // Navigate to product
   await page.click(productSelectors.singleProductButton);
 
   console.log("Successfully navigate to product");

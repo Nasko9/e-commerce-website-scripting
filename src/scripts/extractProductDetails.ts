@@ -2,6 +2,7 @@
 import { Page } from "puppeteer";
 
 export const extractProductDetails = async (page: Page, url: string) => {
+  // Go to url
   await page.goto(url, { waitUntil: "networkidle2" });
 
   // Extract product details
@@ -39,5 +40,6 @@ export const extractProductDetails = async (page: Page, url: string) => {
     };
   });
 
+  // Return details
   return details;
 };

@@ -13,7 +13,8 @@ export const extractProductsData = async (page: Page) => {
   // Navigate to product
   await navigateToProduct(page);
   await delay(10000, true);
-  // Navigate to homepage
+
+  // Check if header logo exist
   try {
     await page.waitForSelector("div[data-header-logo-container] a", {
       timeout: 10000,
@@ -22,16 +23,18 @@ export const extractProductsData = async (page: Page) => {
     handlePuppeteerError(error);
   }
 
+  // Navigate to homepage
   await page.click("div[data-header-logo-container] a");
   await delay(10000, true);
 
-  // Extract 10 product from homepage
+  // Check if product exist on home page
   try {
     await page.waitForSelector(".wt-body-max-width.homepage-row-container");
   } catch (error) {
     handlePuppeteerError(error);
   }
 
+  // Extract 10 product from homepage
   const productData = await page.evaluate(() => {
     const list = Array.from(
       document.querySelectorAll(
@@ -54,6 +57,6 @@ export const extractProductsData = async (page: Page) => {
     Object.assign(product, { details });
   }
 
-  // Set extracted data to JSON filte
+  // Set extracted data to JSON file
   writeJSONToFile("productsData.json", productData);
 };

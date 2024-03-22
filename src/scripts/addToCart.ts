@@ -3,11 +3,9 @@ import { Page } from "puppeteer";
 // Utils
 import { delay } from "../utils/helpers/delay.js";
 import { handlePuppeteerError } from "../utils/helpers/errorHandler.js";
-import { commonSelectors } from "../utils/selectors/common.js";
-import { productSelectors } from "../utils/selectors/product.js";
 
 export const addToCart = async (page: Page) => {
-  // Add to cart
+  // Checks if the add to cart button exists
   try {
     await page.waitForSelector("div[data-add-to-cart-button] button", {
       timeout: 10000,

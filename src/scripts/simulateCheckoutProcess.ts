@@ -2,8 +2,13 @@
 import { Page } from "puppeteer";
 // Utils
 import { delay } from "../utils/helpers/delay.js";
+// Type
+import { CheckoutDetails } from "../types/checkoutType.js";
 
-export const simulateCheckoutProcess = async (page: Page) => {
+export const simulateCheckoutProcess = async (
+  page: Page,
+  checkoutDetails: CheckoutDetails
+) => {
   // Navigate to cart
   await page.click("span[data-header-cart-button] a");
   await delay(10000, true);
@@ -18,17 +23,17 @@ export const simulateCheckoutProcess = async (page: Page) => {
   await delay(10000, true);
 
   // Fill the form
-  await page.type("#shipping-form-email-input", "johndoe@gmail.com");
+  await page.type("#shipping-form-email-input", checkoutDetails.email);
   await delay(10000, false);
-  await page.type("#shipping-form-email-confirmation", "johndoe@gmail.com");
+  await page.type("#shipping-form-email-confirmation", checkoutDetails.email);
   await delay(10000, false);
-  await page.type("#name11-input", "John Doe");
+  await page.type("#name11-input", checkoutDetails.fullName);
   await delay(10000, false);
-  await page.type("#first_line12-input", "John Doe Street");
+  await page.type("#first_line12-input", checkoutDetails.addressLine1);
   await delay(10000, false);
-  await page.type("#zip14-input", "11000");
+  await page.type("#zip14-input", checkoutDetails.postalCode);
   await delay(10000, false);
-  await page.type("#city15-input", "Belgrade");
+  await page.type("#city15-input", checkoutDetails.city);
   await delay(10000, false);
 
   // Click continue to payment
